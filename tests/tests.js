@@ -10,6 +10,44 @@ describe('blog-posts', function() {
               done();
           });
       });
+      it('Should return the correct status code for step 1 where route is correct', function(done) {
+        request('http://localhost:3002/api/ping', function(error, response, body) {
+            expect(response.statusCode).to.equal(200);
+            done();
+        });
+      });
+      it('Should return the correct status code for step 1 where route is incorrect', function(done) {
+        request('http://localhost:3002/api/pings', function(error, response, body) {
+            expect(response.statusCode).to.equal(404);
+            done();
+        });
+      });
+    })
+    describe('Step 2', function() {
+      it('Should return the proper status code for step 2 for the correct route', function(done) {
+        request('http://localhost:3002/api/posts/tech', function(error, response, body) {
+          expect(response.statusCode).to.equal(200);
+          done();
+        });
+      });
+      it('Should return the correct status code for step 2 where route is incorrect', function(done) {
+        request('http://localhost:3002/api/post/tech', function(error, response, body) {
+            expect(response.statusCode).to.equal(404);
+            done();
+        });
+      });
+      it('Should return the correct status code for step 2 where route does not have a tag', function(done) {
+        request('http://localhost:3002/api/posts', function(error, response, body) {
+            expect(response.statusCode).to.equal(404);
+            done();
+        });
+      });
+      it('Should return the correct status code for step 2 when the user uses all three parameters', function(done) {
+        request('http://localhost:3002/api/posts/health,tech/likes/desc', function(error, response, body) {
+            expect(response.statusCode).to.equal(200);
+            done();
+        });
+      });
       it('Should pass tests if all post ids are unique', function(done) {
         axios.get('http://localhost:3002/api/posts/tech,history')
         .then(res => {
