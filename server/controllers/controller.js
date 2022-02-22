@@ -53,14 +53,27 @@ var getTags = (req, res) => {
                       posts = posts.sort((a, b) => (b[sortBy] < a[sortBy]) ? 1 : -1);
                     }
                   }
+                  res.status(200).send(posts);
             })
         )
         .catch((error) => {
             res.status(400).send({
               error: "Tags parameter is required",
-            }); 
-            
-        };
+            });
+            console.log(error);
+          });
+    } else {
+        axios.get(`http://hatchways.io/api/assessment/blog/posts?tag=${tags}&sortBy=${sortBy}&direction=${direction}`)
+        .then((request) => {
+            let data = request.data.posts;
+        })
+        .catch((error) => {
+            res.status(400).send({
+              error: "Tags parameter is required",
+            });
+            console.log(error);
+          });
+    }
 };
 
 module.exports = { apiCall, getTags };
