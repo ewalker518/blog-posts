@@ -1,21 +1,21 @@
-import express from 'express';
+var path = require('path');
+var express = require('express');
 var app = express();
-import fetch from 'node-fetch';
-import bodyParser from 'body-parser';
-import axios from 'axios';
-import { apiCall, getTags } from './controllers/controller.js';
+var bodyParser = require('body-parser');
+var axios = require('axios');
+var { apiCall, getTags } = require('./controllers/controller.js')
 var PORT = process.env.PORT || 3002
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "../client/public")));
 
-fetch('https://api.hatchways.io/assessment/blog/posts')
-.then(data => {
-return data.json();
-})
-.then(post => {
-console.log(post);
-});
+// fetch('https://api.hatchways.io/assessment/blog/posts')
+// .then(data => {
+// return data.json();
+// })
+// .then(post => {
+// console.log(post);
+// });
 
 app.listen(PORT, () => {
     console.log(`API server now on port http://localhost:${PORT}`);
